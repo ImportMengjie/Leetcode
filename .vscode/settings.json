@@ -2,6 +2,7 @@
     "python.pythonPath": "/usr/bin/python3",
     "files.associations": {
         "array": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "iosfwd": "cpp"
     }
 }
