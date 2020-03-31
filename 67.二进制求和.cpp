@@ -56,7 +56,7 @@ public:
         if (i >= 0 || j >= 0)
         {
             string &left = i >= 0 ? a : b;
-            int i = i >= 0 ? i : j;
+            i = i >= 0 ? i : j;
             while (i >= 0)
             {
                 int t = (left[i] - '0') + carry;
