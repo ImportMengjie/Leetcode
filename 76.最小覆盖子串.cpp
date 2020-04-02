@@ -29,15 +29,60 @@
  * 
  */
 #include <string>
+#include <map>
 
 using namespace std;
 
 // @lc code=start
-class Solution {
+class Solution
+{
 public:
-    string minWindow(string s, string t) {
-        
+    string minWindow(string s, string t)
+    {
+        map<char, int> dict;
+        for (char &c : t)
+        {
+            if (dict.find(c) == dict.end())
+                dict[c] = 1;
+            else
+                dict[c]++;
+        }
+
+        int ans[] = {-1, 0};
+        int right = 0, left = 0;
+
+        map<char, int> word_count;
+        int count = 0;
+
+        while (right < s.size())
+        {
+            if (dict.find(s[right]) != dict.end())
+            {
+                if (word_count.find(s[right]) == word_count.end())
+                    word_count[s[right]] = 1;
+                else
+                    word_count[s[right]]++;
+                if (word_count[s[right]] == dict[s[right]])
+                    count++;
+                while (count == dict.size() && left <= right)
+                {
+                    if (ans[0] == -1 || right - left + 1 < ans[0])
+                    {
+                        ans[0] = right - left + 1;
+                        ans[1] = left;
+                    }
+                    if (dict.find(s[left]) != dict.end())
+                    {
+                        word_count[s[left]]--;
+                        if (word_count[s[left]] < dict[s[left]])
+                            count--;
+                    }
+                    left++;
+                }
+            }
+            right++;
+        }
+        return ans[0] == -1 ? "" : s.substr(ans[1], ans[0]);
     }
 };
 // @lc code=end
-
