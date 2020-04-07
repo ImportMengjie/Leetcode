@@ -38,6 +38,7 @@
  * 
  */
 #include <vector>
+#include <stack>
 
 using namespace std;
 
@@ -45,7 +46,20 @@ using namespace std;
 class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
-        
+        if(heights.empty()) return 0;
+        int max_area = 0;
+        stack<int> s;
+        s.push(-1);
+        heights.push_back(0);
+        for(int i=0;i<heights.size();i++){
+            while(s.top()!=-1&&heights[s.top()]>=heights[i]){
+                int top = s.top();
+                s.pop();
+                max_area = max(max_area, (i-s.top()-1)*heights[top]);
+            }
+            s.push(i);
+        }
+        return max_area;
     }
 };
 // @lc code=end
