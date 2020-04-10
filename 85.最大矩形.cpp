@@ -1,3 +1,10 @@
+// @before-stub-for-debug-begin
+#include <vector>
+#include <string>
+
+using namespace std;
+// @before-stub-for-debug-end
+
 /*
  * @lc app=leetcode.cn id=85 lang=cpp
  *
@@ -28,6 +35,7 @@
  * 
  */
 #include <vector>
+#include <string.h>
 
 using namespace std;
 
@@ -38,10 +46,14 @@ public:
         if(matrix.empty()) return 0;
 
         int cols = matrix[0].size();
+        long max_area = 0;
 
         int left_less_min[cols];
+        memset(left_less_min, -1, cols*sizeof(int));
         int right_less_min[cols];
-        int heights[cols] = {0};
+        memset(right_less_min, cols, sizeof(right_less_min));
+        int heights[cols];
+        memset(heights, 0, sizeof(heights));
 
         for(int row=0;row<matrix.size();row++){
             for(int col = 0; col<cols;col++){
@@ -52,13 +64,28 @@ public:
             }
             int boundary = -1;
             for(int col=0;col<cols;col++){
-
+                if(matrix[row][col]=='1')
+                    left_less_min[col] = max(left_less_min[col], boundary);
+                else{
+                    boundary = col;
+                    left_less_min[col] = -1;
+                }
+            }
+            boundary = cols;
+            for(int col=cols-1;col>=0;col--){
+                if(matrix[row][col]=='1')
+                    right_less_min[col] = min(boundary, right_less_min[col]);
+                else{
+                    boundary = col;
+                    right_less_min[col] = cols;
+                }
             }
 
+            for(int col=0;col<cols;col++){
+                max_area = max(max_area, (long)heights[col]*(right_less_min[col]-left_less_min[col]-1));
+            }
         }
-
-
-        
+        return max_area;
     }
 };
 // @lc code=end
