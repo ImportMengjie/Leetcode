@@ -73,11 +73,44 @@
 using namespace std;
 
 // @lc code=start
-class Solution {
+class Solution
+{
 public:
-    bool isScramble(string s1, string s2) {
-        
+    bool isScramble(string s1, string s2)
+    {
+        if (s1.size() != s2.size())
+            return false;
+        bool dp[s1.size()][s1.size()][s1.size() + 1];
+        for (int i = 0; i < s1.size(); i++)
+            for (int j = 0; j < s1.size(); j++)
+            {
+                dp[i][j][1] = (s1[i] == s2[j]);
+                dp[i][j][0] = true;
+            }
+        for (int len = 2; len <= s1.size(); len++)
+        {
+            for (int i = 0; i <= s1.size() - len; i++)
+            {
+                for (int j = 0; j <= s1.size() - len; j++)
+                {
+                    dp[i][j][len] = false;
+                    for (int k = 1; k < len; k++)
+                    {
+                        if (dp[i][j][k] && dp[i + k][j + k][len - k])
+                        {
+                            dp[i][j][len] = true;
+                            break;
+                        }
+                        if (dp[i][j + len - k][k] && dp[i + k][j][len - k])
+                        {
+                            dp[i][j][len] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return dp[0][0][s1.size()];
     }
 };
 // @lc code=end
-
