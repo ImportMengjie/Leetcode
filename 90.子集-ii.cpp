@@ -37,14 +37,31 @@
 using namespace std;
 
 // @lc code=start
-class Solution {
+class Solution
+{
 public:
-
     vector<vector<int>> result;
 
-    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        sort(nums.begin(),nums.end());
+    void dfs(vector<int> &nums, vector<int> &tmp, int ids)
+    {
+        result.push_back(tmp);
+        for (int i = ids; i < nums.size(); i++)
+        {
+            if (ids == i || nums[i] != nums[i - 1])
+            {
+                tmp.push_back(nums[i]);
+                dfs(nums, tmp, i + 1);
+                tmp.pop_back();
+            }
+        }
+    }
+
+    vector<vector<int>> subsetsWithDup(vector<int> &nums)
+    {
+        sort(nums.begin(), nums.end());
+        vector<int> temp;
+        dfs(nums, temp, 0);
+        return result;
     }
 };
 // @lc code=end
-
