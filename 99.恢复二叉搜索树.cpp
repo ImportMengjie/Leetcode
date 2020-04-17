@@ -64,6 +64,9 @@
  */
 
 #define NULL 0
+#include <stack>
+
+using namespace std;
 
 // Definition for a binary tree node.
 struct TreeNode {
@@ -78,7 +81,28 @@ struct TreeNode {
 class Solution {
 public:
     void recoverTree(TreeNode* root) {
-        
+        stack<TreeNode*> s;
+        TreeNode *pre = NULL, *x = NULL, *y = NULL;
+        while(!s.empty()||root){
+            while(root){
+                s.push(root);
+                root = root->left;
+            }
+            root = s.top();
+            s.pop();
+            if(pre&&pre->val>root->val){
+                y = root;
+                if(x==NULL)
+                    x = pre;
+                else
+                    break;
+            }
+            pre = root;
+            root = root->right;
+        }
+        int t = x->val;
+        x->val = y->val;
+        y->val = t;
     }
 };
 // @lc code=end

@@ -83,11 +83,46 @@
 using namespace std;
 
 // @lc code=start
-class Solution {
+class Solution
+{
 public:
-    vector<string> fullJustify(vector<string>& words, int maxWidth) {
-        
+    string fillwords(vector<string> &words, int start, int end, int maxWidth, bool is_last_line)
+    {
+        int word_count = end - start + 1;
+        int space_count = maxWidth + 1 - word_count;
+        for (int i = start; i <= end; i++)
+            space_count -= words[i].size();
+        int space_avg = (word_count == 1) ? 1 : space_count / (word_count - 1);
+        int space_extra = word_count == 1 ? 0 : space_count % (word_count - 1);
+        string ans;
+        for (int i = start; i < end; i++)
+        {
+            ans += words[i];
+            if (is_last_line)
+                fill_n(back_inserter(ans), 1, ' ');
+            else
+                fill_n(back_inserter(ans), 1 + space_avg + ((i - start) < space_extra), ' ');
+        }
+        ans += words[end];
+        fill_n(back_inserter(ans), maxWidth - ans.size(), ' ');
+        return ans;
+    }
+
+    vector<string> fullJustify(vector<string> &words, int maxWidth)
+    {
+        vector<string> ans;
+        int start = 0, count = 0;
+        for (int i = 0; i < words.size(); i++)
+        {
+            count += words[i].size() + 1;
+            if (i + 1 == words.size() || count + words[i + 1].size() > maxWidth)
+            {
+                ans.push_back(fillwords(words, start, i, maxWidth, i + 1 == words.size()));
+                count = 0;
+                start = i + 1;
+            }
+        }
+        return ans;
     }
 };
 // @lc code=end
-
