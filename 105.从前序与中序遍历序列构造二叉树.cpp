@@ -33,6 +33,7 @@
  * 
  */
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -48,7 +49,23 @@ struct TreeNode {
 // @lc code=start
 class Solution {
 public:
+
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder,map<int,int> &m, int in_left, int in_right, int &pre_ids){
+        TreeNode *root = NULL;
+        if(in_left<in_right){
+            root = new TreeNode(preorder[pre_ids++]);
+            root->left = buildTree(preorder, inorder, m, in_left, m[root->val], pre_ids);
+            root->right = buildTree(preorder, inorder, m, m[root->val]+1, in_right, pre_ids);
+        }
+        return root;
+    }
+
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        map<int,int> m;
+        for(int i=0;i<inorder.size();i++)
+            m[inorder[i]] = i;
+        int pre_ids = 0;
+        return buildTree(preorder, inorder, m, 0, inorder.size(), pre_ids);
         
     }
 };
