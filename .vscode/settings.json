@@ -4,6 +4,7 @@
         "array": "cpp",
         "limits": "cpp",
         "iosfwd": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "numeric": "cpp"
     }
 }
