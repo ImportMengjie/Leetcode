@@ -51,17 +51,25 @@ using namespace std;
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
+        if(!prices.size()) return 0;
 
         int dp[prices.size()][3][2];
         for(int i=0;i<prices.size();i++){
-            for(int k=3;k>0;k--){
-                if(i-1<0){
-
-                }else{
-                    dp[i][k][0]=max(dp[i-1][k][]);
-                }
+            dp[i][0][0] = 0;
+            dp[i][0][1] = 1<<31;
+            if(i==0){
+                dp[0][1][0] = 0;
+                dp[0][1][1] = -prices[0];
+                dp[0][2][0] = 0;
+                dp[0][2][1] = -prices[0];
             }
+            else
+                for(int k=2;k>0;k--){
+                    dp[i][k][0]=max(dp[i-1][k][0],dp[i-1][k][1] + prices[i]);
+                    dp[i][k][1]=max(dp[i-1][k][1],dp[i-1][k-1][0]==1<<31?0:(dp[i-1][k-1][0] - prices[i]));
+                }
         }
+        return dp[prices.size()-1][2][0];
 
     }
 };
