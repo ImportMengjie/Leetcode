@@ -56,7 +56,7 @@ public:
             else
                 hashmap[bitmap] = word.size();
         }
-        size_t max_product = -1;
+        size_t max_product = 0;
         for(auto& x:hashmap){
             for(auto& y:hashmap){
                 if((x.first&y.first)==0){
