@@ -48,8 +48,10 @@
  * 
  */
 #define NULL 0
-#include <math.h>
+#include <algorithm>
 #include <array>
+
+using namespace std;
 
 // Definition for a binary tree node.
 struct TreeNode {
