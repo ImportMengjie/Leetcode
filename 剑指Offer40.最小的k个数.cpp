@@ -45,7 +45,7 @@ public:
     vector<int> getLeastNumbers1(vector<int>& arr, int k) {
         if(k==0) return {};
         if(arr.size()<=k) return arr;
-        priority_queue<int,vector<int>,greater<int>> Q;
+        priority_queue<int,vector<int>,less<int>> Q;
         int i = 0;
         for(;i<k;i++)
             Q.push(arr[i]);
