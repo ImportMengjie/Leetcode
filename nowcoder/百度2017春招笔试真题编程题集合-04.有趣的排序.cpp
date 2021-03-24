@@ -41,12 +41,11 @@ int main(){
     int count=0;
 
     for(int i=0,j=0;i<nums.size();i++){
-        if(nums[i]==nums[j]){
+        if(nums[i]==sorted_nums[j]){
             j++;
             count++;
         }
     }
-
     cout<<n-count;
     return 0;
 }
