@@ -10,6 +10,7 @@
 链接：https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
+#define NULL 0
 
 // Definition for a Node.
 class Node {
