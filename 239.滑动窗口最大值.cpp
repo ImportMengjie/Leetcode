@@ -90,6 +90,15 @@ public:
             deq.push_back(i);
         }
         vector<int> ans = {nums[deq.front()]};
+        for(int i=k;i<nums.size();i++){
+            while(deq.size()&&nums[i]>=nums[deq.back()])
+                deq.pop_back();
+            deq.push_back(i);
+            while(deq.front()<=i-k)
+                deq.pop_front();
+            ans.push_back(nums[deq.front()]);
+        }
+        return ans;
     }
 
     vector<int> maxSlidingWindow2(vector<int>& nums, int k) {
