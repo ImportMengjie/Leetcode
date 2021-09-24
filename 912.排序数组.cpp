@@ -92,11 +92,35 @@ private:
         }
     }
 
+    void mergeSort(vector<int>& nums, vector<int>& tmp, int left, int right){
+        if(left<right){
+            int mid = left+((right-left)>>1);
+            mergeSort(nums, tmp, left, mid);
+            mergeSort(nums, tmp, mid+1, right);
+            int i = left, j=mid+1;
+            int cnt = 0;
+            while(i<=mid&&j<=right){
+                if(nums[i]<nums[j])
+                    tmp[cnt++] = nums[i++];
+                else
+                    tmp[cnt++] = nums[j++];
+            }
+            while(i<=mid)
+                tmp[cnt++] = nums[i++];
+            while(j<=right)
+                tmp[cnt++] = nums[j++];
+            for(int i=0;i<right-left+1;i++)
+                nums[i+left] = tmp[i];
+        }
+    }
+
 
 public:
     vector<int> sortArray(vector<int>& nums) {
-        quickSortStack(nums);
+        // quickSortStack(nums);
         // quickSort(nums, 0, nums.size()-1);
+        vector<int> tmp(nums.size(), 0);
+        mergeSort(nums, tmp, 0, nums.size()-1);
         return nums;
     }
 };

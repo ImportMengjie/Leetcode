@@ -32,6 +32,7 @@
 
 // Definition for a binary tree node.
 #include <vector>
+#include <stack>
 struct TreeNode {
     int val;
     TreeNode *left;
@@ -58,6 +59,23 @@ public:
         backtrack(root, ans);
         return ans;
     }
+
+    vector<int> inorderTraversal2(TreeNode* root) {
+        vector<int> ans;
+        stack<TreeNode*> stk;
+        TreeNode* p = root;
+        while(stk.size()||p){
+            while(p){
+                stk.push(p);
+                p = p->left;
+            }
+            ans.push_back(stk.top()->val);
+            p = stk.top()->right;
+            stk.pop();
+        }
+        return ans;
+    }
+
 };
 // @lc code=end
 
