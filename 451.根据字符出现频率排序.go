@@ -1,7 +1,6 @@
 package Leetcode
 
 import (
-	"strconv"
 	"strings"
 )
 
@@ -89,7 +88,7 @@ func frequencySort(s string) string {
 	for i := maxFreq; i > 0; i-- {
 		if chars, exits := freq2Chars[i]; exits {
 			for _, c := range chars {
-				ret += strings.Repeat(string(c)), i)
+				ret += strings.Repeat(string(c), i)
 			}
 		}
 	}
