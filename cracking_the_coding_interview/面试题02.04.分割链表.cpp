@@ -35,27 +35,76 @@ struct ListNode {
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
+        ListNode* small_head = new ListNode(0), * large_head = new ListNode(0);
+        ListNode* small = small_head, * large = large_head;
+        while(head){
+            if(head->val<x){
+                small->next = head;
+                head = head->next;
+                small = small->next;
+                small->next = NULL;
+            } else {
+                large->next = head;
+                head = head->next;
+                large = large->next;
+                large->next = NULL;
+            }
+        }
+        small->next = large_head->next;
+        return small_head->next;
+    }
+
+    ListNode* partition1(ListNode* head, int x) {
+        if(!head||!head->next) return head;
         ListNode tmp(-1);
         tmp.next = head;
         head = &tmp;
+        ListNode* left = head;
+        ListNode* pre = head;
+        while(pre->next&&pre->next->val<x){
+            pre = pre->next;
+            left = left->next;
+        }
+        while(pre->next){
+            if(pre->next->val<x){
+                ListNode* left_nxt = left->next;
+                ListNode* cur = pre->next;
+                pre->next = cur->next;
+                cur->next = left_nxt;
+                left->next = cur;
+                left = left->next;
+            } else {
+                pre = pre->next;
+            }
+        }
+        return head->next;
+    }
 
+    ListNode* partition1(ListNode* head, int x) {
+        ListNode tmp(-1);
+        tmp.next = head;
+        head = &tmp;
         ListNode* left = head;
         ListNode* cur = head->next;
-        while(cur->next){
-            if(cur->next->val<x)
-                cur = cur->next;
+        ListNode* pre = head;
+        while(cur&&cur->val<x){
+            left = left->next;
+            cur = cur->next;
+            pre = pre->next;
         }
-
         while(cur){
             if(cur->val<x){
-                ListNode* nxt = cur->next;
-                ListNode* tmp = left->next;
+                ListNode* left_nxt = left->next;
+                ListNode* cur_nxt = cur->next;
                 left->next = cur;
-                cur->next = tmp;
-                left = cur;
-                cur = nxt;
-            }else
+                cur->next = left_nxt;
+                pre->next = cur_nxt;
+                left = left->next;
+                cur = cur_nxt;
+            } else{
+                pre = cur;
                 cur = cur->next;
+            }
         }
         return head->next;
     }
