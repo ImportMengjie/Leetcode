@@ -40,6 +40,10 @@ using namespace std;
 class Solution {
 public:
     vector<int> drawLine(int length, int w, int x1, int x2, int y) {
-
+        vector<int> ans(length, 0);
+        for(int i=x1;i<=x2&&i<length*32;i++) {
+            ans[y*(w/32)+ i/32] |= 1<<(31 - i%32);
+        }
+        return ans;
     }
 };
