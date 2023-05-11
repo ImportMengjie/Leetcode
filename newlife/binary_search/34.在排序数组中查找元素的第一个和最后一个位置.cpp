@@ -67,7 +67,6 @@ public:
     }
 
     vector<int> searchRange1(vector<int>& nums, int target) {
-
         auto lowerbound = [](vector<int>& nums, int target)->int{
             int left = 0, right = nums.size() - 1, ans = nums.size();
             while(left<=right) {
